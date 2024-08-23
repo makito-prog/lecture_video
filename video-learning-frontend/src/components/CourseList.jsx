@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+import { Box, Typography, List, ListItem, ListItemText, Link } from '@mui/material';
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
@@ -17,19 +18,25 @@ const CourseList = () => {
       });
   }, []);
 
-  if (error) return <div>Error fetching the courses!</div>;
+  if (error) return <Typography color="error">Error fetching the courses!</Typography>;
 
   return (
-    <div>
-      <h1>Courses</h1>
-      <ul>
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        Courses
+      </Typography>
+      <List>
         {courses.map(course => (
-          <li key={course.id}>
-            <Link to={`/courses/${course.id}`}>{course.title}</Link>
-          </li>
+          <ListItem key={course.id} disablePadding>
+            <ListItemText>
+              <Link component={RouterLink} to={`/courses/${course.id}`} underline="hover" color="primary" variant="body1">
+                {course.title}
+              </Link>
+            </ListItemText>
+          </ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Box>
   );
 };
 
