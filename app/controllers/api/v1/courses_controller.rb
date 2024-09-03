@@ -10,12 +10,7 @@ class Api::V1::CoursesController < ApplicationController
   end
 
   def show
-    begin
-      course = Course.includes(:lectures).find(params[:id])
-      render json: course, include: :lectures
-    rescue => e
-      logger.error "Failed to fetch course: #{e.message}"
-      render json: { error: 'Internal Server Error' }, status: :internal_server_error
-    end
+    course = Course.includes(:lectures).find(params[:id])
+    render json: course.to_json(include: { lectures: { only: [:id, :title, :video_url] } })
   end
 end

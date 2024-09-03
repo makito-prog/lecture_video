@@ -13,12 +13,8 @@ module Api
       end
 
       def show
-        if @lecture.video.attached?
-          video_url = url_for(@lecture.video) # ActiveStorage での動画 URL を取得
-        else
-          video_url = "default_video_url" # ここで適切なデフォルトURLを指定
-        end
-        render json: { id: @lecture.id, title: @lecture.title, video_url: video_url }
+        lecture = Lecture.find(params[:id])
+        render json: lecture.as_json(only: [:id, :title, :video_url])
       end
 
       private
@@ -28,7 +24,8 @@ module Api
       end
 
       def lecture_params
-        params.require(:lecture).permit(:title, :video, :course_id)
+        # :video はActiveStorage用のものなので、ここでは :video_url を使います
+        params.require(:lecture).permit(:title, :video_url, :course_id)
       end
     end
   end

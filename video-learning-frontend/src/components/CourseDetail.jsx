@@ -31,35 +31,34 @@ const CourseDetail = () => {
       <Typography variant="h4" gutterBottom>
         Lectures
       </Typography>
-      {course.lectures && course.lectures.length > 0 ? (
-        <Grid container spacing={3}>
-          {course.lectures.map(lecture => (
-            <Grid item xs={12} md={6} key={lecture.id}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h5" component="div" gutterBottom>
-                    {lecture.title}
-                  </Typography>
-                  {lecture.video_url ? (
-                    <CardMedia
-                      component="iframe"
-                      src={lecture.video_url}
-                      title={lecture.title}
-                      sx={{ height: 315 }}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <Typography color="textSecondary">No video available.</Typography>
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
+        {course.lectures && course.lectures.length > 0 ? (
+          <Grid container spacing={3}>
+            {course.lectures.map(lecture => (
+              <Grid item xs={12} md={6} key={lecture.id}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h5" component="div" gutterBottom>
+                      {lecture.title}
+                    </Typography>
+                    {lecture.video_url ? (
+                      <Typography>
+                        <a href={lecture.video_url} target="_blank" rel="noopener noreferrer">
+                          Watch Video
+                        </a>
+                      </Typography>
+                    ) : (
+                      <Typography color="textSecondary">No video available.</Typography>
+                    )}
+
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
         <Typography>No lectures available.</Typography>
       )}
+
     </Box>
   );
 };
